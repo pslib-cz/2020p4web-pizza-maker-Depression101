@@ -1,48 +1,43 @@
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
-import { Navbar, NavbarBrand, NavbarToggler } from "reactstrap";
-import { render } from '@testing-library/react';
-var bool = false;
+import MyDropdown from './components/Dropdown'
+import {Navbar} from 'reactstrap'
+import Ingredients from './components/Ingredients';
+import Pizza from './components/Pizza';
+import NotFound from './components/NotFound';
+import Calzone from './components/Calzone'
+import { useState } from 'react';
+
+
 function App() {
+  const [values,setValues] = useState([]);
+  const initialValues = [{name:"ham", category:"meat"},{name:"salami", category:"meat"}];
   return (
     <div className="App">
       <Router>
         <Navbar expand="md">
-          <NavbarBrand href="/order/pizza">Pizza</NavbarBrand>
-          <NavbarToggler onClick={toggle()}></NavbarToggler>
-          
+          <MyDropdown/>
         </Navbar>
           <Switch>
+            <Route path="/ingredients">
+              <Ingredients values={values} setValues={setValues}></Ingredients>
+            </Route>
             <Route path="/order/pizza">
-              
+              <Pizza></Pizza>
             </Route>
             <Route path="/order/calzone">
-              
+              <Calzone></Calzone>
             </Route>
-            <Route path="/">
-              
+            <Route exact path="/">
             </Route>
+            <Route component={NotFound}></Route>
           </Switch>
       </Router>
     </div>
   );
 }
-function toggle(){
-  bool= !bool;
-  render();
-};
-function Bool(){
-  if(bool)
-  {
-    return <h2>Bool is true</h2>
-  }
-  else
-    return <h2>Bool is false</h2>
-};
 export default App;
